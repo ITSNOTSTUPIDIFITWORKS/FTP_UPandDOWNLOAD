@@ -1,0 +1,2 @@
+direction;filepath;filename;ftpserver;ftpusername;ftppassword
+DOWNLOAD;\\localfilepath\in\own\filesystem\;herecomesthefile.name;ftp.serveraddress.com;ftpusername;ftppassword

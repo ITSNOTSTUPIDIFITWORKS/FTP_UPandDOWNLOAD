@@ -1,0 +1,2 @@
+﻿direction;filepath;filename;ftpserver;ftpusername;ftppassword
+UPLOAD;\\localfilepath\in\own\filesystem\;herecomesthefile.name;ftp.serveraddress.com;ftpusername;ftppassword
