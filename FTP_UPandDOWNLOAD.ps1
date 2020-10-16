@@ -5,12 +5,6 @@ param(
 if (!(Test-Path($csvfile))) {
 	Exit
 }
-	
-Import-Module .\modules\log.psm1
-
-$logfile = getLOGFILE FTP_UPandDownload "" $true
-
-Start-Transcript -path $logfile -append | out-null
 
 Add-Type -Path ".\lib\WinSCPnet.dll"
 $transferOptions = New-Object WinSCP.TransferOptions
@@ -89,4 +83,3 @@ if ($session.Opened) {
 	"Disconnecting" | out-default
 	$session.Close()
 }
-Stop-Transcript
