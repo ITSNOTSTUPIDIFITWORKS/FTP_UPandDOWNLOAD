@@ -5,6 +5,12 @@ param(
 if (!(Test-Path($csvfile))) {
 	Exit
 }
+	
+Import-Module .\modules\log.psm1
+
+$logfile = getLOGFILE FTP_UPandDownload "" $true
+
+Start-Transcript -path $logfile -append | out-null
 
 Add-Type -Path ".\lib\WinSCPnet.dll"
 $transferOptions = New-Object WinSCP.TransferOptions
@@ -25,7 +31,12 @@ foreach ($entry in $CSV) {
 			if ($entry.ftpserver -and $entry.ftpusername -and $entry.ftppassword) {
 				$sessionOptions = New-Object WinSCP.SessionOptions -Property @{Protocol = [WinSCP.Protocol]::ftp; HostName = $entry.ftpserver ; UserName = $entry.ftpusername; Password = $entry.ftppassword}
 				"Connecting to " + $entry.ftpserver + " with username " + $entry.ftpusername | out-default
-				$session.Open($sessionOptions)
+				Try {
+					$session.Open($sessionOptions)
+				} catch {
+					"Connection failed" | out-default
+					continue
+				}
 			} else {
 				"Error: Missing or wrong arguments in CSV-File" | out-default
 				$entry.direction = $null
@@ -78,3 +89,4 @@ if ($session.Opened) {
 	"Disconnecting" | out-default
 	$session.Close()
 }
+Stop-Transcript
